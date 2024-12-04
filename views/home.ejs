@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener Generator</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #ffa726;
+            margin: 20px 0;
+            font-size: 2rem;
+        }
+
+        form {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-sizing: border-box;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-size: 1rem;
+            color: #ffcc80;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #333333;
+            border-radius: 5px;
+            background-color: #252525;
+            color: #ffffff;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]::placeholder {
+            color: #aaaaaa;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #64b5f6;
+            box-shadow: 0 0 5px rgba(100, 181, 246, 0.8);
+        }
+
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ffa726;
+            color: #121212;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ffcc80;
+        }
+
+        .generated-url {
+            margin-top: 20px;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .generated-url a {
+            color: #64b5f6;
+            text-decoration: none;
+        }
+
+        .generated-url a:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin-top: 20px;
+            background-color: #1e1e1e;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        thead {
+            background-color: #424242;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #333333;
+        }
+
+        th {
+            color: #ffcc80;
+            font-size: 1rem;
+        }
+
+        tr:hover {
+            background-color: #333333;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #252525;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #1a1a1a;
+        }
+
+        td a {
+            color: #64b5f6;
+            text-decoration: none;
+        }
+
+        td a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Title Section -->
+    <h1>URL Shortener</h1>
+
+    <!-- Generated URL Display -->
+    <% if (locals.id) { %>
+    <div class="generated-url">
+        <p>URL Generated: 
+            <a href="http://localhost:8000/url/<%= id %>" target="_blank">
+                http://localhost:8000/url/<%= id %>
+            </a>
+        </p>
+    </div>
+    <% } %>
+
+    <!-- Form Section -->
+    <form method="POST" action="/url">
+        <label for="url">Enter Your Original URL</label>
+        <input 
+            type="text" 
+            name="url" 
+            id="url" 
+            placeholder="https://example.com" 
+            required 
+        />
+        <button type="submit">Generate</button>
+    </form>
+
+    <!-- Table Section -->
+    <table>
+        <thead>
+            <tr>
+                <th>S. No</th>
+                <th>Short ID</th>
+                <th>Shorted URL</th>
+                <th>Redirect URL</th>
+                <th>Click Count</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% urls.forEach((url, index) => { %>
+                <tr>
+                    <td><%= index + 1 %></td>
+                    <td><%= url.shortId %></td>
+                    <td><a href="http://localhost:8000/url/<%= url.shortId %>" target="_blank">http://localhost:8000/url/<%= url.shortId %></a></td>
+                    <td><a href="<%= url.redirectURL %>" target="_blank"><%= url.redirectURL %></a></td>
+                    <td><%= url.visitHistory.length %></td>
+                    <td><button style="background-color: rgb(202, 15, 15);" ><i class="fas fa-trash"></i></button></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>
