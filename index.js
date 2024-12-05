@@ -6,6 +6,8 @@ import UrlRoute from "./routers/url_router.js";
 import StaticRoute from "./routers/static_router.js"
 import connectDB from "./DB/connectDB.js";
 import { URL } from "./models/url_model.js";
+import methodOverride from "method-override";
+
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -13,14 +15,13 @@ const PORT = process.env.PORT || 8000;
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
+app.use(methodOverride("_method"));
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 app.set("views",path.resolve("./views"))
 
 app.use("/", StaticRoute)
-
-
 
 
 app.use("/url", UrlRoute);

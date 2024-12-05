@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
 import { URL } from "../models/url_model.js"; 
 import validator from "validator"; // Use `import` for "validator"
-import { response } from "express";
+
 
 async function handleGenerateNewShortURL(req, res) {
   const body = req.body;
@@ -27,14 +27,38 @@ async function handleGenerateNewShortURL(req, res) {
   //   id: shortID 
   // });
 
+
    // Fetch all URLs to pass to the view
    const allURLs = await URL.find({});
+
 
    return res.render("home", {
      urls: allURLs, // Pass the updated list of URLs
      id: shortID
    });
 }
+
+const DeleteUrlInfo = async (req, res) => {
+  const { id } = req.params; // Get the ID from the URL
+  try {
+    const deletedUrl = await URL.findByIdAndDelete(id);
+    if (!deletedUrl) {
+      return res.status(404).json({ error: "URL not found" });
+    }
+    const allURLs = await URL.find({});
+    console.log("Deleted URL:", deletedUrl);
+    // return res.status(200).json({ message: "URL deleted successfully" });
+    return res.render("home", {
+      urls: allURLs, // Pass the updated list of URLs
+    
+    });
+  } catch (error) {
+    console.error("Error deleting URL:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
 
 async function handleGetAnalytics(req,res) {
     const shortId = req.params.shortId;
@@ -45,4 +69,4 @@ async function handleGetAnalytics(req,res) {
 
 
 // Export using ES module syntax
-export { handleGenerateNewShortURL , handleGetAnalytics };
+export { handleGenerateNewShortURL , handleGetAnalytics , DeleteUrlInfo };

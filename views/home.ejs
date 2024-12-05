@@ -191,7 +191,14 @@
                     <td><a href="http://localhost:8000/url/<%= url.shortId %>" target="_blank">http://localhost:8000/url/<%= url.shortId %></a></td>
                     <td><a href="<%= url.redirectURL %>" target="_blank"><%= url.redirectURL %></a></td>
                     <td><%= url.visitHistory.length %></td>
-                    <td><button style="background-color: rgb(202, 15, 15);" ><i class="fas fa-trash"></i></button></td>
+                    <td>
+                        <form method="POST" action="/url/<%= url._id %>?_method=DELETE" style="display:inline;">
+                          <button type="submit" style="background-color: rgb(202, 15, 15); color: white; border: none; cursor: pointer;">
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </form>
+                      </td>
+                      
                 </tr>
             <% }); %>
         </tbody>
