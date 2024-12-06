@@ -26,7 +26,7 @@
             font-size: 2rem;
         }
 
-        form {
+        .form1 {
             background-color: #1e1e1e;
             padding: 20px;
             border-radius: 8px;
@@ -38,6 +38,19 @@
             gap: 15px;
             box-sizing: border-box;
             margin-bottom: 30px;
+        }
+        .form2 {
+            background-color: #1e1e1e;
+           
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-sizing: border-box;
+           
         }
 
         label {
@@ -66,7 +79,7 @@
             box-shadow: 0 0 5px rgba(100, 181, 246, 0.8);
         }
 
-        button {
+        .button1 {
             padding: 10px;
             border: none;
             border-radius: 5px;
@@ -79,7 +92,7 @@
             transition: background-color 0.3s ease;
         }
 
-        button:hover {
+        .button1:hover {
             background-color: #ffcc80;
         }
 
@@ -159,7 +172,7 @@
     <% } %>
 
     <!-- Form Section -->
-    <form method="POST" action="/url">
+    <form class="form1" method="POST" action="/url">
         <label for="url">Enter Your Original URL</label>
         <input 
             type="text" 
@@ -168,7 +181,7 @@
             placeholder="https://example.com" 
             required 
         />
-        <button type="submit">Generate</button>
+        <button class="button1" type="submit">Generate</button>
     </form>
 
     <!-- Table Section -->
@@ -192,9 +205,9 @@
                     <td><a href="<%= url.redirectURL %>" target="_blank"><%= url.redirectURL %></a></td>
                     <td><%= url.visitHistory.length %></td>
                     <td>
-                        <form method="POST" action="/url/<%= url._id %>?_method=DELETE" style="display:inline;">
-                          <button type="submit" style="background-color: rgb(202, 15, 15); color: white; border: none; cursor: pointer;">
-                            <i class="fas fa-trash"></i>
+                        <form class="form2" style="background-color: transparent; color: transparent;" method="POST" action="/url/<%= url._id %>?_method=DELETE">
+                          <button type="submit" style=" border: none;  padding: 10px; background-color: transparent; color: transparent; border: none; cursor: pointer;">
+                            <i style="color: rgb(226, 23, 23);" class="fas fa-trash"></i>
                           </button>
                         </form>
                       </td>
